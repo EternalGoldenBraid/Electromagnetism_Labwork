@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from helpers import actualValues
+import pandas as pd
 
 
 # Voltages in volts.
@@ -102,12 +103,14 @@ def main():
 
     # Compute the slope and constant
     r = np.linalg.lstsq(b2, large_short_voltage, rcond=None)[0]
-    ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1])
+    ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1],
+            label = "Short coupling")
 
     b2 = np.vstack([large_long_current, np.ones(len(large_long_current))]).T
     # Compute the slope and constant
     r = np.linalg.lstsq(b2, large_long_voltage, rcond=None)[0]
-    ax2.plot(large_long_current, np.multiply(r[0], large_long_current)+r[1])
+    ax2.plot(large_long_current, np.multiply(r[0], large_long_current)+r[1],
+            label = "Long coupling")
 
     # Plotting measured values ends here.
     # Start calculating the actual values.
@@ -165,10 +168,34 @@ def main():
     ax4.set_xlabel('Current (mA)')
     ax4.grid(True)
 
-    ax4.scatter(actual_large_short_current, large_short_voltage)
-    ax4.scatter(large_long_current, actual_large_long_voltage)
+    ax4.scatter(actual_large_short_current, large_short_voltage,
+            label = "Short coupling")
+    ax4.scatter(large_long_current, actual_large_long_voltage,
+            label = "Short coupling")
 
-    plt.show()
+    ax2.legend(loc=0)
+    ax4.legend(loc=0)
+    plt.legend()
+
+    small_short = np.vstack((actual_small_short_current, small_short_voltage))
+    small_long = np.vstack((small_long_current, actual_small_long_voltage))
+    large_short = np.vstack((actual_large_short_current, large_short_voltage))
+    large_long= np.vstack((large_long_current, actual_large_long_voltage))
+
+    print(small_short)
+    print("")
+    print(small_long)
+    print("")
+    print(large_short)
+    print("")
+    print(large_long)
+    print("")
+
+    #plt.show()
+    
+    ## Export data to csv
+    df = pd.DataFrame(small_short)
+    df.to_csv('file.csv',index=True)
 
 if __name__ == "__main__":
     main()
