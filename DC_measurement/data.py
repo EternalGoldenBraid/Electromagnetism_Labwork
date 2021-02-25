@@ -48,84 +48,85 @@ def longCouplings(U_v, I, R_a):
 def main():
 
 
-    #xlim_l, xlim_r = 0,12 
-    #ylim_u, ylim_l = 6, 0
-    ##plt.yticks(range(-2,2))
-    ##plt.xticks(range(-4,4))
-    ## Plot figure for small resistance
-    #ax1 = plt.subplot(121)
-    #ax1.set_yticks(range(0,8))
-    #ax1.set_xticks(np.linspace(0, 10, 6))
-    #ax1.set_ylim(ylim_l, ylim_u)
-    #ax1.set_xlim(xlim_l, xlim_r)
-    ##ax1.set_title("Small Resistor's voltage as a function of current")
-    #ax1.set_ylabel('Voltage (V)')
-    #ax1.set_xlabel('Current (mA)')
-    #ax1.grid(True)
+    xlim_l, xlim_r = -2,12 
+    ylim_u, ylim_l = 6, 0
+    #plt.yticks(range(-2,2))
+    #plt.xticks(range(-4,4))
+    # Plot figure for small resistance
+    ax1 = plt.subplot(121)
+    ax1.set_yticks(range(0,8))
+    ax1.set_xticks(np.linspace(0, 10, 6))
+    ax1.set_ylim(ylim_l, ylim_u)
+    ax1.set_xlim(xlim_l, xlim_r)
+    #ax1.set_title("Small Resistor's voltage as a function of current")
+    ax1.set_ylabel('Voltage (V)')
+    ax1.set_xlabel('Current (mA)')
+    ax1.grid(True)
 
-    #ax1.scatter(small_short_current, small_short_voltage)
-    #ax1.scatter(small_long_current, small_long_voltage)
+    ax1.scatter(small_short_current, small_short_voltage)
+    ax1.scatter(small_long_current, small_long_voltage)
 
-    ## Add best fit line using least square method
-    ## Reshape the array for numpy
-    #a1 = np.vstack([small_short_current, np.ones(len(small_short_current))]).T
+    # Add best fit line using least square method
+    # Reshape the array for numpy
+    a1 = np.vstack([small_short_current, np.ones(len(small_short_current))]).T
 
-    ## Compute the slope and constant
-    #r = np.linalg.lstsq(a1, small_short_voltage, rcond=None)[0]
+    # Compute the slope and constant
+    r = np.linalg.lstsq(a1, small_short_voltage, rcond=None)[0]
+    ax1.plot(small_short_current, np.multiply(r[0], small_short_current)+r[1])
+
+    x_extend = np.linspace(-50, 100, 5)
     #ax1.plot(small_short_current, np.multiply(r[0], small_short_current)+r[1])
+    ax1.plot(x_extend, r[0]*x_extend+r[1], color = 'blue')
 
-    #x_extend = np.linspace(0, 100, 5)
-    ##ax1.plot(small_short_current, np.multiply(r[0], small_short_current)+r[1])
-    #ax1.plot(x_extend, r[0]*x_extend+r[1], color = 'blue')
+    # Reshape the array for numpy
+    a1 = np.vstack([small_long_current, np.ones(len(small_long_current))]).T
 
-    ## Reshape the array for numpy
-    #a1 = np.vstack([small_long_current, np.ones(len(small_long_current))]).T
+    # Compute the slope and constant
+    r = np.linalg.lstsq(a1, small_long_voltage, rcond=None)[0]
+    #ax1.plot(small_long_current, np.multiply(r[0], small_long_current)+r[1])
+    ax1.plot(x_extend, r[0]*x_extend+r[1], color = 'orange')
 
-    ## Compute the slope and constant
-    #r = np.linalg.lstsq(a1, small_long_voltage, rcond=None)[0]
-    ##ax1.plot(small_long_current, np.multiply(r[0], small_long_current)+r[1])
-    #ax1.plot(x_extend, r[0]*x_extend+r[1], color = 'orange')
-
-    ## Plot the measured value of the resistor based on the multimeter.
+    # Plot the measured value of the resistor based on the multimeter.
     #ax1.plot(x_extend, 0.551*x_extend, label='Multimeter', color='red')
+    ax1.plot(x_extend, 0.551*x_extend, color='red')
 
-    ## Plot figure for large resistance
-    #xlim_l, xlim_r = 0, 6
-    #ylim_u, ylim_l = 30, 15
-    #ax2 = plt.subplot(122)
-    ##plt.yticks(range(-2,2))
-    ##plt.xticks(range(-4,4))
-    #ax2.set_ylim(ylim_l, ylim_u)
-    #ax2.set_xlim(xlim_l, xlim_r)
-    ##ax2.set_title("Large resistor's voltage as a function of current")
-    #ax2.set_ylabel('Voltage (V)')
-    #ax2.set_xlabel('Current (mA)')
-    #ax2.grid(True)
+    # Plot figure for large resistance
+    xlim_l, xlim_r = -2, 6
+    ylim_u, ylim_l = 30, -2
+    ax2 = plt.subplot(122)
+    #plt.yticks(range(-2,2))
+    #plt.xticks(range(-4,4))
+    ax2.set_ylim(ylim_l, ylim_u)
+    ax2.set_xlim(xlim_l, xlim_r)
+    #ax2.set_title("Large resistor's voltage as a function of current")
+    ax2.set_ylabel('Voltage (V)')
+    ax2.set_xlabel('Current (mA)')
+    ax2.grid(True)
 
-    #ax2.scatter(large_short_current, large_short_voltage)
-    #ax2.scatter(large_long_current, large_long_voltage)
+    ax2.scatter(large_short_current, large_short_voltage)
+    ax2.scatter(large_long_current, large_long_voltage)
 
-    ## Add best fit line using least square method
-    ## Reshape the array for numpy
-    #b2 = np.vstack([large_short_current, np.ones(len(large_short_current))]).T
+    # Add best fit line using least square method
+    # Reshape the array for numpy
+    b2 = np.vstack([large_short_current, np.ones(len(large_short_current))]).T
 
-    ## Compute the slope and constant
-    #r = np.linalg.lstsq(b2, large_short_voltage, rcond=None)[0]
-    ##ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1],
-    ##        label = "Short coupling")
-    #ax2.plot(x_extend, r[0]*x_extend+r[1],
-    #        label = "Short coupling", color = 'blue')
+    # Compute the slope and constant
+    r = np.linalg.lstsq(b2, large_short_voltage, rcond=None)[0]
+    #ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1],
+    #        label = "Short coupling")
+    ax2.plot(x_extend, r[0]*x_extend+r[1],
+            label = "Short coupling", color = 'blue')
 
-    #b2 = np.vstack([large_long_current, np.ones(len(large_long_current))]).T
-    ## Compute the slope and constant
-    #r = np.linalg.lstsq(b2, large_long_voltage, rcond=None)[0]
-    ##ax2.plot(large_long_current, np.multiply(r[0], large_long_current)+r[1],
-    #        #label = "Long coupling")
-    #ax2.plot(x_extend, r[0]*x_extend+r[1],
-    #        label = "Long coupling", color = 'orange')
+    b2 = np.vstack([large_long_current, np.ones(len(large_long_current))]).T
+    # Compute the slope and constant
+    r = np.linalg.lstsq(b2, large_long_voltage, rcond=None)[0]
+    #ax2.plot(large_long_current, np.multiply(r[0], large_long_current)+r[1],
+            #label = "Long coupling")
+    ax2.plot(x_extend, r[0]*x_extend+r[1],
+            label = "Long coupling", color = 'orange')
 
-    ## Plot the measured value of the resistor based on the multimeter.
-    #ax2.plot(x_extend, 6.890*x_extend, label='Multimeter', color='red')
+    # Plot the measured value of the resistor based on the multimeter.
+    ax2.plot(x_extend, 6.890*x_extend, label='Multimeter', color='red')
 
 
     # Plotting measured values ends here.
@@ -159,17 +160,17 @@ def main():
     xlim_l, xlim_r = 0, 11
     ylim_u, ylim_l = 6, 0
     ax3 = plt.subplot(121)
-    #plt.yticks(range(-2,2))
-    #plt.xticks(range(-4,4))
-    ax3.set_ylim(ylim_l, ylim_u)
-    ax3.set_xlim(xlim_l, xlim_r)
-    ax3.set_title("Actual small")
-    ax3.set_ylabel('Voltage (V)')
-    ax3.set_xlabel('Current (mA)')
-    ax3.grid(True)
+    ##plt.yticks(range(-2,2))
+    ##plt.xticks(range(-4,4))
+    #ax3.set_ylim(ylim_l, ylim_u)
+    #ax3.set_xlim(xlim_l, xlim_r)
+    #ax3.set_title("Actual small")
+    #ax3.set_ylabel('Voltage (V)')
+    #ax3.set_xlabel('Current (mA)')
+    #ax3.grid(True)
 
-    ax3.scatter(actual_small_short_current, small_short_voltage)
-    ax3.scatter(small_long_current, actual_small_long_voltage)
+    #ax3.scatter(actual_small_short_current, small_short_voltage)
+    #ax3.scatter(small_long_current, actual_small_long_voltage)
 
     ## Add best fit line using least square method
 
@@ -177,10 +178,10 @@ def main():
     # Reshape the array for numpy
     b2 = np.vstack([actual_small_short_current, np.ones(len(actual_small_short_current))]).T
 
-    ## Compute the slope and constant
-    #r = np.linalg.lstsq(b2, small_short_voltage, rcond=None)[0]
-    ##ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1],
-    ##        label = "Short coupling")
+    # Compute the slope and constant
+    r = np.linalg.lstsq(b2, small_short_voltage, rcond=None)[0]
+    #ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1],
+            #label = "Short coupling")
     #x_extend = np.linspace(0, 100, 5)
     #ax3.plot(x_extend, r[0]*x_extend+r[1],
     #        color = 'blue')
@@ -198,22 +199,22 @@ def main():
     #        color = 'orange')
 
     # Plot figure for actual values of large resistor
-    xlim_l, xlim_r = 0, 6
-    ylim_u, ylim_l = 30, 15
-    ax4 = plt.subplot(122)
-    #plt.yticks(range(-2,2))
-    #plt.xticks(range(-4,4))
-    ax4.set_ylim(ylim_l, ylim_u)
-    ax4.set_xlim(xlim_l, xlim_r)
-    ax4.set_title("Actual large")
-    ax4.set_ylabel('Voltage (V)')
-    ax4.set_xlabel('Current (mA)')
-    ax4.grid(True)
+    #xlim_l, xlim_r = 0, 6
+    #ylim_u, ylim_l = 30, 15
+    #ax4 = plt.subplot(122)
+    ##plt.yticks(range(-2,2))
+    ##plt.xticks(range(-4,4))
+    #ax4.set_ylim(ylim_l, ylim_u)
+    #ax4.set_xlim(xlim_l, xlim_r)
+    #ax4.set_title("Actual large")
+    #ax4.set_ylabel('Voltage (V)')
+    #ax4.set_xlabel('Current (mA)')
+    #ax4.grid(True)
 
-    ax4.scatter(actual_large_short_current, large_short_voltage,
-            label = "Short coupling")
-    ax4.scatter(large_long_current, actual_large_long_voltage,
-            label = "Short coupling")
+    #ax4.scatter(actual_large_short_current, large_short_voltage,
+    #        label = "Short coupling")
+    #ax4.scatter(large_long_current, actual_large_long_voltage,
+    #        label = "Short coupling")
 
     ### Add best fit line using least square method
     ## Reshape the array for numpy
@@ -223,12 +224,12 @@ def main():
     #r = np.linalg.lstsq(b2, large_short_voltage, rcond=None)[0]
     ##ax2.plot(large_short_current, np.multiply(r[0], large_short_current)+r[1],
     ##        label = "Short coupling")
-    #x_extend = np.linspace(0, 100, 5)
+    #x_extend = np.linspace(-50, 100, 5)
     #ax4.plot(x_extend, r[0]*x_extend+r[1],
     #        label = "Short coupling", color = 'blue')
 
-    #ax2.legend(loc=0)
-    ax4.legend(loc=0)
+    ax2.legend(loc=0)
+    #ax4.legend(loc=0)
     plt.legend()
 
     small_short = np.vstack((actual_small_short_current, small_short_voltage))
